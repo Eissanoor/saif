@@ -40,4 +40,4 @@ const Admin = {
 };
 
 
-module.exports = FATSDB;
+module.exports = Admin;
