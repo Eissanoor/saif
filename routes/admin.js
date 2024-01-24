@@ -1,5 +1,20 @@
 const express = require("express");
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+const dotenv = require("dotenv");
+const path = require("path");
 
+dotenv.config({ path: path.join(__dirname, "..", ".env") });
+const C_cloud_name = process.env.C_cloud_name;
+const C_api_key = process.env.C_api_key;
+const C_api_secret = process.env.C_api_secret;
+cloudinary.config({
+    cloud_name: C_cloud_name,
+    api_key: C_api_key,
+    api_secret: C_api_secret,
+});
 const cookieparser = require("cookie-parser");
 const adminController = require("../controllers/admin.js");
 const Response = require('../models/response.js');
@@ -20,5 +35,5 @@ router.post("/addCategory", adminController.addcategory)
 router.put("/update/:categoryId", adminController.updateCategory);
 router.get("/getCategories", adminController.getCategories);
 router.delete("/delete/:categoryId", adminController.deleteCategory);
-router.post("/addsub_category", adminController.addsub_category)
+router.post("/addsub_category", upload.single("image"), adminController.addsub_category)
 module.exports = router;

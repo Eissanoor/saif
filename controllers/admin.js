@@ -1,18 +1,4 @@
 const sequelize = require("../utils/database");
-const cloudinary = require("cloudinary").v2;
-
-const dotenv = require("dotenv");
-const path = require("path");
-
-dotenv.config({ path: path.join(__dirname, "..", ".env") });
-const C_cloud_name = process.env.C_cloud_name;
-const C_api_key = process.env.C_api_key;
-const C_api_secret = process.env.C_api_secret;
-cloudinary.config({
-    cloud_name: C_cloud_name,
-    api_key: C_api_key,
-    api_secret: C_api_secret,
-});
 const AdminAuth = require("../models/adminauth")
 const Category = require("../models/category")
 const SubCategory = require("../models/sub_category")
