@@ -11,6 +11,9 @@ router.get('/', (req, res, next) =>
 });
 router.get("/home", adminController.home)
 router.post("/adminlogin", adminController.adminlogin)
-router.post("/addcategory", adminController.addcategory)
+router.post("/addCategory", adminController.addcategory)
+router.put("/update/:categoryId", adminController.updateCategory);
+router.get("/getCategories", adminController.getCategories);
+router.delete("/delete/:categoryId", adminController.deleteCategory);
 router.post("/addsub_category", adminController.addsub_category)
 module.exports = router;
