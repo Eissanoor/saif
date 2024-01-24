@@ -1,6 +1,18 @@
 const sequelize = require("../utils/database");
 const AdminAuth = require("../models/adminauth")
 const Category = require("../models/category")
+const dotenv = require("dotenv");
+const path = require("path");
+const cloudinary = require("cloudinary").v2;
+dotenv.config({ path: path.join(__dirname, "..", ".env") });
+const C_cloud_name = process.env.C_cloud_name;
+const C_api_key = process.env.C_api_key;
+const C_api_secret = process.env.C_api_secret;
+cloudinary.config({
+    cloud_name: C_cloud_name,
+    api_key: C_api_key,
+    api_secret: C_api_secret,
+});
 const SubCategory = require("../models/sub_category")
 const Admin = {
     async home(req, res, next)
@@ -121,10 +133,21 @@ const Admin = {
     },
     async addsub_category(req, res, next)
     {
+
         try {
+            const file = req.file;
+            let ManuImage = null;
+
+            if (file) {
+                ManuImage = `data:image/png;base64,${file.buffer.toString("base64")}`;
+
+                const result = await cloudinary.uploader.upload(ManuImage);
+                ManuImage = result.url;
+            }
+
             const name = req.body.name;
             const category_id = req.body.category_id;
-            const addCategory = await SubCategory.create({ name: name, category_id: category_id })
+            const addCategory = await SubCategory.create({ name: name, category_id: category_id, image: ManuImage })
 
 
             return res.status(200).send({ status: 200, message: "sub_category has been added", data: addCategory });
