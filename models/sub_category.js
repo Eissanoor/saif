@@ -9,6 +9,7 @@ const subcategroy = sequelize.define("sub_categroy", {
         allowNull: false,
         primaryKey: true,
     },
+    image: Sequelize.STRING,
     category_id: Sequelize.INTEGER,
     name: Sequelize.STRING,
 });

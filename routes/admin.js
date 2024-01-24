@@ -1,8 +1,13 @@
 const express = require("express");
+
+const cookieparser = require("cookie-parser");
 const adminController = require("../controllers/admin.js");
 const Response = require('../models/response.js');
 const router = express.Router();
+const cors = require("cors");
+router.use(cors());
 router.use(express.json());
+router.use(cookieparser());
 router.use(express.urlencoded({ extended: true }));
 router.get('/', (req, res, next) =>
 {
