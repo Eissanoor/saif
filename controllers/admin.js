@@ -53,7 +53,7 @@ const Admin = {
     async updateCategory(req, res, next) {
         try {
           const categoryId = req.params.categoryId;
-          const updatedCategory = await Category.update(
+          await Category.update(
             { name: req.body.name },
             { where: { id: categoryId } }
           );
@@ -61,7 +61,7 @@ const Admin = {
           return res.status(200).json({
             status: 200,
             message: "Category has been updated",
-            data: updatedCategory,
+            data: null,
           });
         } catch (e) {
           return res.status(500).json({
