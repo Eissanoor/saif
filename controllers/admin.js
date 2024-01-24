@@ -42,81 +42,83 @@ const Admin = {
             return res.status(200).json({ status: 200, message: "Category has been added", data: addCategory });
         } catch (e) {
             return res
-              .status(500)
-              .json({
+                .status(500)
+                .json({
+                    status: 500,
+                    message: "Internal Server Error",
+                    data: null,
+                });
+        }
+    },
+    async updateCategory(req, res, next)
+    {
+        try {
+            const categoryId = req.params.categoryId;
+            await Category.update(
+                { name: req.body.name },
+                { where: { id: categoryId } }
+            );
+
+            return res.status(200).json({
+                status: 200,
+                message: "Category has been updated",
+                data: null,
+            });
+        } catch (e) {
+            return res.status(500).json({
                 status: 500,
                 message: "Internal Server Error",
                 data: null,
-              });
-        }
-    },
-    async updateCategory(req, res, next) {
-        try {
-          const categoryId = req.params.categoryId;
-          await Category.update(
-            { name: req.body.name },
-            { where: { id: categoryId } }
-          );
-
-          return res.status(200).json({
-            status: 200,
-            message: "Category has been updated",
-            data: null,
-          });
-        } catch (e) {
-          return res.status(500).json({
-            status: 500,
-            message: "Internal Server Error",
-            data: null,
-          });
-        }
-    },
-    async deleteCategory(req, res, next) {
-        try {
-          const categoryId = req.params.categoryId;
-          const deletedCategory = await Category.destroy({
-            where: { id: categoryId },
-          });
-
-          if (!deletedCategory) {
-            return res.status(404).json({
-              status: 404,
-              message: "Category not found",
-              data: null,
             });
-          }
-
-          return res.status(200).json({
-            status: 200,
-            message: "Category has been deleted",
-            data: null,
-          });
-        } catch (e) {
-          return res.status(500).json({
-            status: 500,
-            message: "Internal Server Error",
-            data: null,
-          });
         }
     },
-    async getCategories(req, res, next) {
+    async deleteCategory(req, res, next)
+    {
         try {
-          const categories = await Category.findAll();
+            const categoryId = req.params.categoryId;
+            const deletedCategory = await Category.destroy({
+                where: { id: categoryId },
+            });
 
-          return res.status(200).json({
-            status: 200,
-            message: "Categories retrieved successfully",
-            data: categories,
-          });
+            if (!deletedCategory) {
+                return res.status(404).json({
+                    status: 404,
+                    message: "Category not found",
+                    data: null,
+                });
+            }
+
+            return res.status(200).json({
+                status: 200,
+                message: "Category has been deleted",
+                data: null,
+            });
         } catch (e) {
-          return res.status(500).json({
-            status: 500,
-            message: "Internal Server Error",
-            data: null,
-          });
+            return res.status(500).json({
+                status: 500,
+                message: "Internal Server Error",
+                data: null,
+            });
         }
     },
+    async getCategories(req, res, next)
+    {
+        try {
+            const categories = await Category.findAll();
 
+            return res.status(200).json({
+                status: 200,
+                message: "Categories retrieved successfully",
+                data: categories,
+            });
+        } catch (e) {
+            return res.status(500).json({
+                status: 500,
+                message: "Internal Server Error",
+                data: null,
+            });
+        }
+    },
     async addsub_category(req, res, next)
     {
         try {
