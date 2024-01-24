@@ -2,6 +2,8 @@ const sequelize = require("../utils/database");
 const AdminAuth = require("../models/adminauth")
 const Category = require("../models/category")
 const SubCategory = require("../models/sub_category")
+const Product = require("../models/product")
+
 const Admin = {
     async home(req, res, next)
     {
@@ -109,6 +111,53 @@ const Admin = {
             data: categories,
           });
         } catch (e) {
+          return res.status(500).json({
+            status: 500,
+            message: "Internal Server Error",
+            data: null,
+          });
+        }
+    },
+
+    // Products
+    async addProduct(req, res, next) {
+        try {
+          const { title, price, imageUrl, description, info } = req.body;
+
+          // Use Sequelize to create a new product
+          const newProduct = await Product.create({
+            title,
+            price,
+            imageUrl,
+            description,
+            info,
+          });
+
+          return res.status(201).json({
+            status: 201,
+            message: "Product has been added",
+            data: newProduct,
+          });
+        } catch (error) {
+          console.error("Error adding product:", error);
+          return res.status(500).json({
+            status: 500,
+            message: error.toString(),
+            data: null,
+          });
+        }
+    },
+    async getProducts(req, res, next) {
+        try {
+          const products = await Product.findAll();
+
+          return res.status(200).json({
+            status: 200,
+            message: "Products retrieved successfully",
+            data: products,
+          });
+        } catch (error) {
+          console.error("Error fetching products:", error);
           return res.status(500).json({
             status: 500,
             message: "Internal Server Error",

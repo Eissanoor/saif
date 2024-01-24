@@ -15,5 +15,10 @@ router.post("/addCategory", adminController.addcategory)
 router.put("/update/:categoryId", adminController.updateCategory);
 router.get("/getCategories", adminController.getCategories);
 router.delete("/delete/:categoryId", adminController.deleteCategory);
+
+// products routes
+router.post("/add-product", adminController.addProduct);
+router.get("/products", adminController.getProducts);
+
 router.post("/addsub_category", adminController.addsub_category)
 module.exports = router;
