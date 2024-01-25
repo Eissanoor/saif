@@ -1,4 +1,3 @@
-const sequelize = require("../utils/database");
 const AdminAuth = require("../models/adminauth")
 const Category = require("../models/category")
 const dotenv = require("dotenv");
