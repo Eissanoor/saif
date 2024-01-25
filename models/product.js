@@ -17,12 +17,8 @@ const Product = sequelize.define("product", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  info: {
-    type: Sequelize.JSON,
-    allowNull: true,
-  },
   additionalDescription: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
+    type: Sequelize.STRING,
     allowNull: true,
   },
 });
