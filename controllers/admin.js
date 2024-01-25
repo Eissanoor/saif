@@ -14,7 +14,7 @@ cloudinary.config({
     api_secret: C_api_secret,
 });
 const SubCategory = require("../models/sub_category")
-const Product = require("../models/product")
+
 
 const Admin = {
     async home(req, res, next)
