@@ -13,8 +13,8 @@ app.use(errorController);
 
 
 sequelize
-  .sync({ force: true })
-  // .sync()
+  // .sync({ force: true })
+  .sync()
   .then((result) =>
   {
     app.listen(PORT, HOST, () =>
