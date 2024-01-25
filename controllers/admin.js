@@ -1,5 +1,7 @@
 const AdminAuth = require("../models/adminauth")
 const Category = require("../models/category")
+const brands = require("../models/brands")
+const slugify = require('slugify');
 const dotenv = require("dotenv");
 const path = require("path");
 const cloudinary = require("cloudinary").v2;
@@ -22,7 +24,7 @@ const Admin = {
             return res.status(200).send({ status: 200, data: "THIS IS saif project HOME PAGE" });
         } catch (e) {
             console.error(e);
-            return res.status(500).send("Internal Server Error");
+            return res.status(500).json({ status: 500, message: "Internal Server Error", data: null });
         }
     },
     async adminlogin(req, res, next)
@@ -42,7 +44,7 @@ const Admin = {
             return res.status(200).send({ status: 200, massege: "Admin login successfully:", data: null });
         } catch (e) {
             console.error("Error in admin login:", e);
-            return res.status(500).send("Internal Server Error");
+            return res.status(500).json({ status: 500, message: "Internal Server Error", data: null });
         }
     },
     async addcategory(req, res, next)
@@ -154,7 +156,33 @@ const Admin = {
             return res.status(200).send({ status: 200, message: "sub_category has been added", data: addCategory });
         } catch (e) {
             console.error("Error in admin login:", e);
-            return res.status(500).send("Internal Server Error");
+            return res.status(500).json({ status: 500, message: "Internal Server Error", data: null });
+        }
+    },
+    async addbrands(req, res, next)
+    {
+
+        try {
+            const file = req.file;
+            let ManuImage = null;
+
+            if (file) {
+                ManuImage = `data:image/png;base64,${file.buffer.toString("base64")}`;
+
+                const result = await cloudinary.uploader.upload(ManuImage);
+                ManuImage = result.url;
+            }
+
+            const name = req.body.name;
+            const setslug = req.body.slug
+            const slug = slugify(setslug, { lower: true });
+            const addCategory = await brands.create({ name: name, slug: slug, image: ManuImage })
+
+
+            return res.status(200).send({ status: 200, message: "brands has been added", data: addCategory });
+        } catch (e) {
+            console.error("Error in admin login:", e);
+            return res.status(500).json({ status: 500, message: "Internal Server Error", data: null });
         }
     }
 

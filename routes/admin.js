@@ -22,5 +22,6 @@ router.post("/addCategory", adminController.addcategory)
 router.put("/update/:categoryId", adminController.updateCategory);
 router.get("/getCategories", adminController.getCategories);
 router.delete("/delete/:categoryId", adminController.deleteCategory);
-router.post("/addsub_category", upload.single("image"), adminController.addsub_category)
+router.post("/addsub_category", upload.single("image"), adminController.addsub_category);
+router.post("/addbrands", upload.single("image"), adminController.addbrands)
 module.exports = router;

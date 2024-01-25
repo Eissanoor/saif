@@ -5,13 +5,9 @@ const sequelize = require("./utils/database");
 const app = express();
 const PORT = 3000;
 const HOST = "localhost";
-
 app.use("/admin", adminRoute);
 app.use("/shop", (req, res, next) => { });
 app.use(errorController);
-
-
-
 sequelize
   // .sync({ force: true })
   .sync()
