@@ -12,7 +12,7 @@ const product = sequelize.define("product", {
     image: Sequelize.STRING,
     thumnail: Sequelize.STRING,
     name: Sequelize.STRING,
-    // slug: Sequelize.STRING,
+    slug: Sequelize.STRING,
 });
 
 module.exports = product;
