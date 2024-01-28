@@ -184,6 +184,69 @@ const Admin = {
             console.error("Error in admin login:", e);
             return res.status(500).json({ status: 500, message: "Internal Server Error", data: null });
         }
+    },
+    async updatebrands(req, res, next)
+    {
+
+        try {
+            const brandId = req.params.id; // Assuming you have the brand ID in the request parameters
+            const file = req.file;
+            let brandImage = null;
+
+            if (file) {
+                brandImage = `data:image/png;base64,${file.buffer.toString("base64")}`;
+
+                const result = await cloudinary.uploader.upload(brandImage);
+                brandImage = result.url;
+            }
+
+            const name = req.body.name;
+            const setSlug = req.body.slug;
+            const slug = slugify(setSlug, { lower: true });
+
+            // Find the brand by ID
+            const existingBrand = await brands.findByPk(brandId);
+
+            if (!existingBrand) {
+                return res.status(404).json({ status: 404, message: "Brand not found", data: null });
+            }
+
+            // Update brand information
+            existingBrand.name = name;
+            existingBrand.slug = slug;
+
+            // Update image only if it's provided
+            if (brandImage) {
+                existingBrand.image = brandImage;
+            }
+
+            // Save the updated brand
+            await existingBrand.save();
+
+            return res.status(200).json({ status: 200, message: "Brand has been updated", data: existingBrand });
+        } catch (error) {
+            console.error("Error in updateBrands:", error);
+            return res.status(500).json({ status: 500, message: "Internal Server Error", data: null });
+        }
+    },
+    async getbyidbrands(req, res, next)
+    {
+
+        try {
+            const brandId = req.params.id;
+
+            // Find the brand by ID
+            const brand = await brands.findByPk(brandId);
+
+            if (!brand) {
+                return res.status(404).json({ status: 404, message: 'Brand not found', data: null });
+            }
+
+            return res.status(200).json({ status: 200, message: 'Brand retrieved successfully', data: brand });
+        } catch (error) {
+            console.error('Error in getbyid:', error);
+            return res.status(500).json({ status: 500, message: 'Internal Server Error', data: null });
+        }
     }
 
 
