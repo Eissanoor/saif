@@ -2,7 +2,7 @@ const express = require("express");
 const adminRoute = require("./routes/admin");
 const errorController = require("./controllers/error");
 const sequelize = require("./utils/database");
-const product = require("./models/productt")
+
 const app = express();
 const PORT = 3000;
 const HOST = "localhost";

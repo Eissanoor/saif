@@ -10,7 +10,7 @@ const product = sequelize.define("product", {
         primaryKey: true,
     },
     image: Sequelize.STRING,
-    thumnail: Sequelize.STRING,
+    thumnail: { type: Sequelize.ARRAY(Sequelize.STRING) },
     name: Sequelize.STRING,
     slug: Sequelize.STRING,
 });

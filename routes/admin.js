@@ -16,14 +16,25 @@ router.get('/', (req, res, next) =>
     const response = new Response(200, true, "ok", null);
     res.status(200).json(response.toJson());
 });
-router.get("/home", adminController.home)
 router.post("/adminlogin", adminController.adminlogin)
 router.post("/addCategory", adminController.addcategory)
-router.put("/update/:categoryId", adminController.updateCategory);
-router.get("/getCategories", adminController.getCategories);
-router.delete("/delete/:categoryId", adminController.deleteCategory);
 router.post("/addsub_category", upload.single("image"), adminController.addsub_category);
 router.post("/addbrands", upload.single("image"), adminController.addbrands)
-router.put("/updatebrands/:id", upload.single("image"), adminController.updatebrands)
+router.post("/addproduct", upload.single("image"), adminController.addproduct);
+
+//--------------GET---------------------------------------------------
+router.get("/home", adminController.home)
+router.get("/getbrands", adminController.getbrands)
+router.get("/getCategories", adminController.getCategories);
 router.get("/getbyidbrands/:id", adminController.getbyidbrands)
+
+//--------------------PUT------------------------------
+router.put("/update/:categoryId", adminController.updateCategory);
+router.put("/updateproducts/:id", upload.single("image"), adminController.updateproducts)
+router.put("/updateproductsthumnail/:id", upload.array("thumnail", 8), adminController.updateproductsthumnail)
+router.put("/updatebrands/:id", upload.single("image"), adminController.updatebrands)
+//--------------------------------DELETE--------------------------------------------
+router.delete("/delete/:categoryId", adminController.deleteCategory);
+router.delete("/deleteproducts/:id", adminController.deleteproducts)
+
 module.exports = router;
