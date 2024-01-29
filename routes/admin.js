@@ -35,6 +35,8 @@ router.put("/updateproductsthumnail/:id", upload.array("thumnail", 8), adminCont
 router.put("/updatebrands/:id", upload.single("image"), adminController.updatebrands)
 //--------------------------------DELETE--------------------------------------------
 router.delete("/delete/:categoryId", adminController.deleteCategory);
-router.delete("/deleteproducts/:id", adminController.deleteproducts)
+router.delete("/deleteproducts/:id", adminController.deleteproducts);
+router.delete("/deletebrand/:id", adminController.deletebrand);
+router.delete("/deletesub_category/:id", adminController.deletesub_category)
 
 module.exports = router;

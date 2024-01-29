@@ -142,7 +142,7 @@ const Admin = {
         }
     },
 
-    //--------------------------GET--------------------------------------
+    //--------------------------GET----------------------
     async home(req, res, next)
     {
         try {
@@ -160,24 +160,6 @@ const Admin = {
             return res.status(200).json({
                 status: 200,
                 message: "brands retrieved successfully",
-                data: categories,
-            });
-        } catch (e) {
-            return res.status(500).json({
-                status: 500,
-                message: "Internal Server Error",
-                data: null,
-            });
-        }
-    },
-    async getCategories(req, res, next)
-    {
-        try {
-            const categories = await Category.findAll();
-
-            return res.status(200).json({
-                status: 200,
-                message: "Categories retrieved successfully",
                 data: categories,
             });
         } catch (e) {
@@ -207,6 +189,25 @@ const Admin = {
             return res.status(500).json({ status: 500, message: 'Internal Server Error', data: null });
         }
     },
+    async getCategories(req, res, next)
+    {
+        try {
+            const categories = await Category.findAll();
+
+            return res.status(200).json({
+                status: 200,
+                message: "Categories retrieved successfully",
+                data: categories,
+            });
+        } catch (e) {
+            return res.status(500).json({
+                status: 500,
+                message: "Internal Server Error",
+                data: null,
+            });
+        }
+    },
+    
 
     //--------------------PUT----------------------------
     async updateCategory(req, res, next)
@@ -409,6 +410,66 @@ const Admin = {
             return res.status(200).json({
                 status: 200,
                 message: "products has been deleted",
+                data: null,
+            });
+        } catch (e) {
+            console.log(e);
+            return res.status(500).json({
+                status: 500,
+                message: "Internal Server Error",
+                data: null,
+            });
+        }
+    },
+    async deletebrand(req, res, next)
+    {
+        try {
+            const id = req.params.id;
+            const deletedCategory = await brands.destroy({
+                where: { id: id },
+            });
+
+            if (!deletedCategory) {
+                return res.status(404).json({
+                    status: 404,
+                    message: "brands not found",
+                    data: null,
+                });
+            }
+
+            return res.status(200).json({
+                status: 200,
+                message: "brands has been deleted",
+                data: null,
+            });
+        } catch (e) {
+            console.log(e);
+            return res.status(500).json({
+                status: 500,
+                message: "Internal Server Error",
+                data: null,
+            });
+        }
+    },
+    async deletesub_category(req, res, next)
+    {
+        try {
+            const id = req.params.id;
+            const deletedCategory = await SubCategory.destroy({
+                where: { id: id },
+            });
+
+            if (!deletedCategory) {
+                return res.status(404).json({
+                    status: 404,
+                    message: "SubCategory not found",
+                    data: null,
+                });
+            }
+
+            return res.status(200).json({
+                status: 200,
+                message: "SubCategory has been deleted",
                 data: null,
             });
         } catch (e) {
