@@ -207,8 +207,99 @@ const Admin = {
             });
         }
     },
-    
+    async getbyidCategories(req, res, next)
+    {
 
+        try {
+            const brandId = req.params.id;
+
+            // Find the brand by ID
+            const brand = await Category.findByPk(brandId);
+
+            if (!brand) {
+                return res.status(404).json({ status: 404, message: 'Category not found', data: null });
+            }
+
+            return res.status(200).json({ status: 200, message: 'Category retrieved successfully', data: brand });
+        } catch (error) {
+            console.error('Error in getbyid:', error);
+            return res.status(500).json({ status: 500, message: 'Internal Server Error', data: null });
+        }
+    },
+    async getsub_category(req, res, next)
+    {
+        try {
+            const categories = await SubCategory.findAll();
+
+            return res.status(200).json({
+                status: 200,
+                message: "SubCategory retrieved successfully",
+                data: categories,
+            });
+        } catch (e) {
+            return res.status(500).json({
+                status: 500,
+                message: "Internal Server Error",
+                data: null,
+            });
+        }
+    },
+    async getbyidsub_category(req, res, next)
+    {
+
+        try {
+            const brandId = req.params.id;
+
+            // Find the brand by ID
+            const brand = await SubCategory.findByPk(brandId);
+
+            if (!brand) {
+                return res.status(404).json({ status: 404, message: 'SubCategory not found', data: null });
+            }
+
+            return res.status(200).json({ status: 200, message: 'SubCategory retrieved successfully', data: brand });
+        } catch (error) {
+            console.error('Error in getbyid:', error);
+            return res.status(500).json({ status: 500, message: 'Internal Server Error', data: null });
+        }
+    },
+    async getproduct(req, res, next)
+    {
+        try {
+            const categories = await product.findAll();
+
+            return res.status(200).json({
+                status: 200,
+                message: "product retrieved successfully",
+                data: categories,
+            });
+        } catch (e) {
+            return res.status(500).json({
+                status: 500,
+                message: "Internal Server Error",
+                data: null,
+            });
+        }
+    },
+    async getbyidproduct(req, res, next)
+    {
+
+        try {
+            const brandId = req.params.id;
+
+            // Find the brand by ID
+            const brand = await product.findByPk(brandId);
+
+            if (!brand) {
+                return res.status(404).json({ status: 404, message: 'product not found', data: null });
+            }
+
+            return res.status(200).json({ status: 200, message: 'product retrieved successfully', data: brand });
+        } catch (error) {
+            console.error('Error in getbyid:', error);
+            return res.status(500).json({ status: 500, message: 'Internal Server Error', data: null });
+        }
+    },
     //--------------------PUT----------------------------
     async updateCategory(req, res, next)
     {

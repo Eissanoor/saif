@@ -27,7 +27,11 @@ router.get("/home", adminController.home)
 router.get("/getbrands", adminController.getbrands)
 router.get("/getCategories", adminController.getCategories);
 router.get("/getbyidbrands/:id", adminController.getbyidbrands)
-
+router.get("/getbyidCategories/:id", adminController.getbyidCategories)
+router.get("/getsub_category", adminController.getsub_category)
+router.get("/getbyidsub_category/:id", adminController.getbyidsub_category)
+router.get("/getproduct", adminController.getproduct)
+router.get("/getbyidproduct/:id", adminController.getbyidproduct)
 //--------------------PUT------------------------------
 router.put("/update/:categoryId", adminController.updateCategory);
 router.put("/updateproducts/:id", upload.single("image"), adminController.updateproducts)
