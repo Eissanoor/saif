@@ -2,6 +2,7 @@ const AdminAuth = require("../models/adminauth")
 const Category = require("../models/category")
 const brands = require("../models/brands")
 const product = require("../models/productt")
+const harddisk = require("../models/harddisk")
 const slugify = require('slugify');
 const dotenv = require("dotenv");
 const path = require("path");
@@ -141,7 +142,24 @@ const Admin = {
                 });
         }
     },
+    async addharddisk(req, res, next)
+    {
+        try {
+            const name = req.body.name;
+            const addCategory = await harddisk.create({ name: name })
 
+
+            return res.status(200).json({ status: 200, message: "harddisk has been added", data: addCategory });
+        } catch (e) {
+            return res
+                .status(500)
+                .json({
+                    status: 500,
+                    message: "Internal Server Error",
+                    data: null,
+                });
+        }
+    },
     //--------------------------GET----------------------
     async home(req, res, next)
     {
@@ -300,6 +318,43 @@ const Admin = {
             return res.status(500).json({ status: 500, message: 'Internal Server Error', data: null });
         }
     },
+    async getharddisk(req, res, next)
+    {
+        try {
+            const categories = await harddisk.findAll();
+
+            return res.status(200).json({
+                status: 200,
+                message: "harddisk retrieved successfully",
+                data: categories,
+            });
+        } catch (e) {
+            return res.status(500).json({
+                status: 500,
+                message: "Internal Server Error",
+                data: null,
+            });
+        }
+    },
+    async getbyidharddisk(req, res, next)
+    {
+
+        try {
+            const brandId = req.params.id;
+
+            // Find the brand by ID
+            const brand = await harddisk.findByPk(brandId);
+
+            if (!brand) {
+                return res.status(404).json({ status: 404, message: 'harddisk not found', data: null });
+            }
+
+            return res.status(200).json({ status: 200, message: 'harddisk retrieved successfully', data: brand });
+        } catch (error) {
+            console.error('Error in getbyid:', error);
+            return res.status(500).json({ status: 500, message: 'Internal Server Error', data: null });
+        }
+    },
     //--------------------PUT----------------------------
     async updateCategory(req, res, next)
     {
@@ -452,6 +507,28 @@ const Admin = {
             return res.status(500).json({ status: 500, message: "Internal Server Error", data: null });
         }
     },
+    async updateharddisk(req, res, next)
+    {
+        try {
+            const id = req.params.id;
+            await harddisk.update(
+                { name: req.body.name },
+                { where: { id: id } }
+            );
+
+            return res.status(200).json({
+                status: 200,
+                message: "harddisk has been updated",
+                data: null,
+            });
+        } catch (e) {
+            return res.status(500).json({
+                status: 500,
+                message: "Internal Server Error",
+                data: null,
+            });
+        }
+    },
     //--------------------DELETE------------------------
     async deleteCategory(req, res, next)
     {
@@ -565,6 +642,35 @@ const Admin = {
             });
         } catch (e) {
             console.log(e);
+            return res.status(500).json({
+                status: 500,
+                message: "Internal Server Error",
+                data: null,
+            });
+        }
+    },
+    async deleteharddisk(req, res, next)
+    {
+        try {
+            const id = req.params.id;
+            const deletedCategory = await harddisk.destroy({
+                where: { id: id },
+            });
+
+            if (!deletedCategory) {
+                return res.status(404).json({
+                    status: 404,
+                    message: "harddisk not found",
+                    data: null,
+                });
+            }
+
+            return res.status(200).json({
+                status: 200,
+                message: "harddisk has been deleted",
+                data: null,
+            });
+        } catch (e) {
             return res.status(500).json({
                 status: 500,
                 message: "Internal Server Error",
